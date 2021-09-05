@@ -1,0 +1,14 @@
+module.exports = {
+    HOST: "127.0.0.0",
+    USER: "user",
+    PASSWORD: "pass",
+    DB: "database",
+    PORT: PORT,
+    dialect: "postgres",
+    // pool: {
+    //     max: 5,
+    //     min: 0,
+    //     acquire: 30000,
+    //     idle: 10000
+    // }
+};
