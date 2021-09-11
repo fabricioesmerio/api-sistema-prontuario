@@ -2,7 +2,8 @@ module.exports = (sequelize, Sequelize) => {
     const PatientFile = sequelize.define('patient_arquivo', {
         id: {
             type: Sequelize.INTEGER,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         },
         nome: {
             type: Sequelize.STRING
