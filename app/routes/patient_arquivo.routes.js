@@ -7,6 +7,7 @@ module.exports = app => {
     // router.put('/:pk', authService.authorize, PatientFile.update);
     router.post('/:pk',  authService.authorize , PatientFile.uploadFile);
     router.get('/:pk', authService.authorize, PatientFile.findAll);
+    router.delete('/:id', authService.authorize, PatientFile.delete);
     app.use("/api/files", router);
 }
 

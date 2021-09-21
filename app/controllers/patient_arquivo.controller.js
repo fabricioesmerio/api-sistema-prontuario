@@ -4,9 +4,8 @@ const Op = db.Sequelize.Op;
 const atob = require('atob');
 const Blob = require('node-blob');
 
-
 exports.uploadFile = async (req, res) => {    
-    let b64Data = req.body.content.replace(/^data:(image|application)\/(png|jpg|jpeg|pdf);base64,/, "")
+    let b64Data = req.body.content.replace(/^data:(image|application|audio)\/(png|jpg|jpeg|pdf|x-wav);base64,/, "")
     const blob = b64toBlob(b64Data, req.body.mime_type)
     try {
         let response = await PatientFile.create({
@@ -39,6 +38,29 @@ exports.findAll = async (req, res) => {
             .send({
                 message: err.message || "Erro ao buscar os arquivos do paciente."
             })
+    }
+}
+
+exports.delete = async (req, res) => {
+    console.log(req.params)
+    const ID = req.params.id
+    try {
+        if (!ID) throw 'Não foi informado nenhum identificador!'
+        let result  = await PatientFile.destroy({
+            where: {
+                id: parseInt(ID)
+            }
+        })
+        console.log(result)
+        res.status(200).send({
+            success: true,
+            rowsCount: result
+        })
+    } catch (e) {
+        res.status(500).send({
+            success: false,
+            msg: e
+        });
     }
 }
 
