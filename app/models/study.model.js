@@ -7,10 +7,6 @@ module.exports = (sequelize, Sequelize) => {
         },
         patient_fk: {
             type: Sequelize.INTEGER,
-            // references: {
-            //     model: 'patient',
-            //     key: 'pk'
-            // }
         },
         study_datetime: {
             type: Sequelize.DATE

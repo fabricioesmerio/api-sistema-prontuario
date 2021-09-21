@@ -5,6 +5,8 @@ const sequelize = db.sequelize;
 const Study = db.study;
 const Patient = db.patient;
 const Op = db.Sequelize.Op;
+const atob = require('atob');
+const Blob = require('node-blob');
 
 exports.findOne = (req, res) => {
     const pk = req.params.pk;
@@ -115,6 +117,16 @@ exports.update = async (req, res) => {
     try {
         const data = req.body;
         const pk = req.params;
+
+        console.log(data)
+
+        if (data.laudo_audio) {
+        //     // application/octet-stream
+            let b64Data = data.laudo_audio
+            const blob = b64toBlob(b64Data, 'audio/wav')
+            data.laudo_audio = blob.buffer
+        }
+
         const result = await Study.update(
             data,
             { where: pk }
@@ -123,7 +135,18 @@ exports.update = async (req, res) => {
         else res.send({ message: "Não foi possível atualizar o registro." });
     } catch (error) {
         res.status(500).send({
-            message: 'Erro ao atualizar!'
+            message: 'Erro ao atualizar!' + error
         });
+    }
+
+    function b64toBlob(b64Data, contentType = '', sliceSize = 512) {
+        const byteCharacters = atob(b64Data);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: contentType });
+        return blob
     }
 };
