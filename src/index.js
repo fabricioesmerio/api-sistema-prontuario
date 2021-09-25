@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 
 var corsOptions = {
-    origin: "http://localhost:4200"
+    origin: ["http://devfabricio.tk:8081", "http://localhost:4200"]
 };
 
 app.use(cors(corsOptions));
